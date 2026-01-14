@@ -58,7 +58,7 @@ The header files are the following ones:
 
 ### Dependency diagram
 
-![Project structure](https://github.com/Anaconda04777/Heap_allocator_repo/tree/main/images/project_structure.png "Project structure")
+![Project structure](https://github.com/Anaconda04777/Heap_allocator_repo/tree/main/images/project_structure.png)
 
 ## Description of the main data structures
 
