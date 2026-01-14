@@ -58,7 +58,7 @@ The header files are the following ones:
 
 ### Dependency diagram
 
-![Project structure](https://github.com/Anaconda04777/Heap_allocator_repo/tree/main/images/project_structure.png)
+![Project structure](images/project_structure.png)
 
 ## Description of the main data structures
 
@@ -69,7 +69,7 @@ size, is_used flag, pointers to the previous and next block in the doubly linked
 the header through a bitmask in which the last three bits are used as flags to indicate whether the block is in use and whether the block was allocated with mmap. Furthermore, the block uses a special C data structure called union:
 the union allows storing two different data types in the same memory space, overlapping them. When a block is free (i.e., it doesn't store any data,  and therefore has to be placed in the segregated list), the memory zone will store the two pointers needed by the segregated list (which, remember, is a doubly linked list). When the block contains some data, it will just store the payload in that area (a pointer to the memory area where the data are stored). The size of this section is 16 bytes (8 + 8) because the compiler reserves space based on the largest data type it could store. Finally, we have the footer, which as we can see is not stored in the struct because we cannot know in advance where it will be stored in memory (given that it's after the payload). Its purpose is to make it easy to find the previous adjacent block's header in the heap. We need this information to implement coalescing in $O(1)$.
 
-![Block example](https://github.com/Anaconda04777/Heap_allocator_repo/tree/main/images/block_example.png "Block example")
+![Block example](images/block_example.png "Block example")
 
 #### Struct definition:
 
@@ -135,7 +135,7 @@ Splits the block into two different blocks, one of the exact size that the alloc
 
 It's the algorithm that allows extension of our heap memory. The problem with allocating this way is that most of the time the memory reserved by sbrk will not be contiguous with our already-allocated heap. Therefore, the algorithm fills the gap by creating a new block between the last allocated block in the heap and the new address. Note that since the heap is allocated in the BSS section, the new address returned by sbrk will always be higher than the end of the heap. This happens because the sbrk system call manages a kernel-level pointer called "program break" which indicates the end of the data zone managed by the operating system. When we call the `sbrk()` syscall, the program break will always grow toward higher addresses.
 
-![Sbrk allocation](https://github.com/Anaconda04777/Heap_allocator_repo/tree/main/images/sbrk_allocation.png "Sbrk allocation")
+![Sbrk allocation](images/sbrk_allocation.png "Sbrk allocation")
 
 ## Allocation & deallocation tasks
 
@@ -146,7 +146,7 @@ It's the algorithm that allows extension of our heap memory. The problem with al
 2. Sbrk allocation: if the space in the heap runs out, the allocator uses the `sbrk` syscall to map more space in the process memory. The heap memory is then extended and can be enlarged further through another sbrk allocation.
 3. Mmap allocation: if the data to allocate exceeds a certain threshold, the allocator uses the mmap syscall to handle the large block independently.
 
-![Malloc flow diagram](https://github.com/Anaconda04777/Heap_allocator_repo/tree/main/images/flow_diagram.png "Malloc flow diagram")
+![Malloc flow diagram](images/flow_diagram.png "Malloc flow diagram")
 
 ### Deallocation through `void my_free(void* ptr)`
 
